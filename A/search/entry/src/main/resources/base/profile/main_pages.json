@@ -1,0 +1,14 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/SearchRecipe",
+    "pages/Reminder",
+    "pages/PersonalInformation",
+    "pages/RecipeDetail",
+    "pages/Me",
+    "pages/NutritionAnalyze",
+    "pages/NoteBook",
+    "pages/TodoList",
+    "pages/Kitchen"
+  ]
+}

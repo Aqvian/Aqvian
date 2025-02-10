@@ -1,0 +1,57 @@
+{
+  "app": {
+    "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "certpath": "C:/Users/LENOVO/.ohos/config/openharmony/default_search_oogBFzuTFxqFLZ7OBZvfTEu691-2-0VNnraUL9oxS4M=.cer",
+          "storePassword": "0000001B455B8C8944AB2411AEF825FEF8C5D58FBA959461E536F56116D256BA3814A81ED60B7D44C2C68A",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B0A1EF4C4C48B98FE9B1C0FF3DC26B8B1BF3BE997CBDA168CCFF4557D85FB50C318F396FDC5E205",
+          "profile": "C:/Users/LENOVO/.ohos/config/openharmony/default_search_oogBFzuTFxqFLZ7OBZvfTEu691-2-0VNnraUL9oxS4M=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:/Users/LENOVO/.ohos/config/openharmony/default_search_oogBFzuTFxqFLZ7OBZvfTEu691-2-0VNnraUL9oxS4M=.p12"
+        }
+      }
+    ],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default",
+        "compileSdkVersion": 12,
+        "targetSdkVersion": 12,
+        "compatibleSdkVersion": 12,
+        "runtimeOS": "OpenHarmony",
+        "buildOption": {
+          "strictMode": {
+            "caseSensitiveCheck": true,
+            "useNormalizedOHMUrl": true
+          }
+        }
+      }
+    ],
+    "buildModeSet": [
+      {
+        "name": "debug",
+      },
+      {
+        "name": "release"
+      }
+    ]
+  },
+  "modules": [
+    {
+      "name": "entry",
+      "srcPath": "./entry",
+      "targets": [
+        {
+          "name": "default",
+          "applyToProducts": [
+            "default"
+          ]
+        }
+      ]
+    }
+  ],
+
+}

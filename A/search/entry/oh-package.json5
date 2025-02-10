@@ -1,0 +1,12 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@ohos/axios": "^2.1.0",
+    "@ohos/mpchart": "^3.0.17"
+  }}
+

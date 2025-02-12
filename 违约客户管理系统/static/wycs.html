@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>违约重生</title>
+    <style>
+        /* 保持不变的样式 */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .icon{
+            max-width: 80px; /* 最大宽度 */
+            max-height: 20vh; /* 最大高度，等于视口高度的25% */
+            filter: brightness(0) invert(1); /* 将图像颜色转换为白色 */
+        }
+        .sidebar {
+            width: 150px;
+            background-color: #2c3e50;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+            box-sizing: border-box;
+        }
+        .form-container {
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            padding: 20px;
+            width: 100%;
+            color: white;
+        }
+        .input-container {
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .input, .textarea, .select {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            padding: 10px 20px;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .input {
+            height: 50px;
+        }
+        .textarea {
+            height: 100px;
+            resize: none;
+        }
+        .select {
+            height: 50px;
+        }
+        label {
+            margin-bottom: 10px;
+            display: block;
+            font-weight: bold;
+        }
+        .input-container label {
+            margin-bottom: 5px;
+        }
+        button.submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        button.submit:active {
+            background-color: #06b;
+        }
+        .error-message {
+            color: red;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .slider-container {
+            margin-bottom: 10px;
+        }
+        #ratingSlider {
+            width: 100%;
+        }
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .rating-labels span {
+            font-size: 14px;
+        }
+        .selected-rating {
+            font-weight: bold;
+            color: #08d;
+        }
+        * {
+  margin: 0;
+  padding: 0;
+}
+.wrapper {
+  height: 100vh; /* 使其高度覆盖视口 */
+  width: 100vw; /* 使其宽度覆盖视口 */
+  background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+  position: fixed; /* 固定在视口 */
+  top: 0;
+  left: 0;
+  z-index: -1; /* 确保在所有其他内容之下 */
+}
+.wrapper h1 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 888;
+  text-transform: uppercase;
+}
+.wrapper div {
+  height: 60px;
+  width: 60px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  animation: 4s linear infinite;
+}
+div .dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 20%;
+  right: 20%;
+}
+.wrapper div:nth-child(1) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(3) {
+  top: 40%;
+  left: 40%;
+  animation: animate 3s linear infinite;
+}
+.wrapper div:nth-child(4) {
+  top: 66%;
+  left: 30%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(5) {
+  top: 90%;
+  left: 10%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(6) {
+  top: 30%;
+  left: 60%;
+  animation: animate 5s linear infinite;
+}
+.wrapper div:nth-child(7) {
+  top: 70%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(8) {
+  top: 75%;
+  left: 60%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(9) {
+  top: 50%;
+  left: 50%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(10) {
+  top: 45%;
+  left: 20%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(11) {
+  top: 10%;
+  left: 90%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(12) {
+  top: 20%;
+  left: 70%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(13) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(14) {
+  top: 60%;
+  left: 5%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(15) {
+  top: 90%;
+  left: 80%;
+  animation: animate 9s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: scale(0) translateY(0) rotate(70deg);
+  }
+  100% {
+    transform: scale(1.3) translateY(-100px) rotate(360deg);
+  }
+}
+    .logout-link {
+position: absolute;
+bottom: 120px;
+z-index: 10; /* Ensure the link is above the image */
+}
+
+.scaled-image {
+width: 200%; /* 你可以调整这个百分比来缩放图片 */
+height: auto; /* 保持宽高比例 */
+position: absolute;
+bottom: -20px;
+left:-60px;
+}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+    </div>
+
+<div class="sidebar">
+    <img src="static\images\hdu.png" alt="杭电图标" class="icon"/>
+    <h1>导航栏</h1><br>
+    <a href="/static/query.html">查询客户信息</a>
+    <a href="/static/wykh.html">违约客户</a>
+    <a href="/static/rdsq.html">违约认定申请</a>
+    <a href="/static/rdsh.html">认定审核</a>
+    <a href="/static/wycs.html" style="color: green;">违约重生申请</a>
+    <a href="/static/cssh.html">重生审核</a>
+    <a href="/static/tj.html">数据统计</a>
+    <a href="/static/hdulogin.html" class="logout-link" style="color: yellow;">退出登录</a >
+    <img src="static\images\dogdog.gif" alt="light" class="scaled-image" />
+</div>
+
+<div class="content">
+    <div class="form-container">
+        <h1>违约重生</h1>
+        <form id="resurrectionForm">
+            <label for="customerName">违约客户</label>
+            <input type="text" id="customerName" class="input" name="customerName" required>
+
+            <label for="defaultReason">认定违约原因</label>
+            <select id="defaultReason" class="select" name="defaultReason" required>
+                <option value="交易对手头寸缺口">6 个月内，交易对手技术性或资金等原因，给当天结算带来头寸缺口 2 次以上</option>
+                <option value="成交后撤单">6 个月内因各种原因导致成交后撤单 2 次以上</option>
+                <option value="未按合约支付">未能按照合约规定支付或延期支付利息，本金或其他交付义务（不包括在宽限期内延期支付）</option>
+                <option value="关联违约">关联违约：如果集团或集团内任一公司发生违约，可视情况作为集团内所有成员违约的触发条件</option>
+                <option value="消极债务置换">发生消极债务置换：债务人提供给债权人新的或重组的债务，或新的证券组合、现金或资产低于原有金融义务</option>
+                <option value="申请破产保护">申请破产保护，发生法律接管，或者处于类似的破产保护状态</option>
+                <option value="其他金融机构违约">在其他金融机构违约（包括人行征信记录中显示贷款分类状态不良，逾期超过 90 天等），或外部评级显示为违约级别</option>
+            </select>
+
+            <label for="severity">严重程度</label>
+            <select id="severity" class="select" name="severity" required>
+                <option value="高">高</option>
+                <option value="中">中</option>
+                <option value="低">低</option>
+            </select>
+
+            <label for="recognitionPerson">认定人</label>
+            <input type="text" id="recognitionPerson" class="input" name="recognitionPerson" required>
+
+            <label for="ratingSlider">最新外部等级</label>
+            <div class="slider-container" style="display: flex; align-items: center;">
+                <span id="rangeValue" class="range-label">0</span>
+                <input type="range" id="ratingSlider" class="input" name="externalRating" min="0" max="10" step="1" value="0">
+            </div>
+
+            <label for="resurrectionReason">重生原因</label>
+            <select id="resurrectionReason" class="select" name="resurrectionReason" required>
+                <option value="">请选择重生原因</option>
+                <option value="正常结算后解除">正常结算后解除</option>
+                <option value="在其他金融机构违约解除">在其他金融机构违约解除，或外部评级显示为非违约级别</option>
+                <option value="计提比例小于设置界限">计提比例小于设置界限</option>
+                <option value="连续12个月内按时支付">连续 12 个月内按时支付本金和利息</option>
+                <option value="还款意愿好转">客户的还款意愿和能力明显好转，已偿付逾期本金和利息等费用，且连续 12 个月内按时支付本金、利息</option>
+                <option value="关联集团客户违约解除">导致违约的关联集团内其他违约客户已经违约重生，解除关联成员的违约设定</option>
+            </select>
+
+            <button type="submit" class="submit">提交重生申请</button>
+            <div id="errorMessage" class="error-message"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('ratingSlider').addEventListener('input', function() {
+        document.getElementById('rangeValue').textContent = this.value;
+    });
+
+    document.getElementById('resurrectionForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('/submitResurrection', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('重生申请提交成功！');
+                document.getElementById('resurrectionForm').reset();
+                document.getElementById('rangeValue').textContent = '0';
+            } else {
+                document.getElementById('errorMessage').textContent = data.message || '申请提交失败，请重试。';
+            }
+        })
+        .catch(error => {
+            console.error('提交失败:', error);
+            document.getElementById('errorMessage').textContent = '申请提交失败，请重试。';
+        });
+    });
+</script>
+
+</body>
+</html>

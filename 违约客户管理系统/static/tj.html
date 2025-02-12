@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据统计</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .icon{
+            max-width: 80px; /* 最大宽度 */
+            max-height: 20vh; /* 最大高度，等于视口高度的25% */
+            filter: brightness(0) invert(1); /* 将图像颜色转换为白色 */
+        }
+        .sidebar {
+            width: 150px;
+            background-color: #2c3e50;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+            box-sizing: border-box;
+        }
+        .form-container {
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            padding: 20px;
+            width: 100%;
+        }
+        .input-container {
+            position: relative;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .input {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            height: 50px;
+            outline: 0;
+            padding: 10px 20px;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .cut {
+            background-color: #15172b;
+            border-radius: 10px;
+            height: 20px;
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            transform: translateY(0);
+            transition: transform 200ms;
+            width: 76px;
+        }
+        .cut-short {
+            width: 50px;
+        }
+        .iLabel {
+            color: #65657b;
+            font-family: sans-serif;
+            left: 20px;
+            line-height: 14px;
+            pointer-events: none;
+            position: absolute;
+            transform-origin: 0 50%;
+            transition: transform 200ms, color 200ms;
+            top: 20px;
+            transition: all 0.3s ease;
+        }
+        .input:focus~.cut,
+        .input:not(:placeholder-shown)~.cut {
+            transform: translateY(8px);
+        }
+        .input:focus~.iLabel,
+        .input:not(:placeholder-shown)~.iLabel {
+            transform: translateY(-30px) translateX(10px) scale(0.75);
+            color: #808097;
+        }
+        .input:not(:focus)~.iLabel {
+            color: #808097;
+        }
+        button.submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        button.submit:active {
+            background-color: #06b;
+        }
+        #clientInfo {
+            margin-top: 20px;
+            color: white;
+            font-size: 18px;
+        }
+        #clientInfo .info-row {
+            display: flex;
+            margin-bottom: 10px; /* Space between rows */
+            align-items: center; /* Align items vertically centered */
+        }
+        #clientInfo .info-row .label {
+            width: 200px; /* Adjust the width as needed */
+            font-weight: bold;
+            color: #dc2f55;
+        }
+        #clientInfo .info-row .value {
+            color: #eee;
+            flex: 1; /* Take up remaining space */
+        }
+         * {
+  margin: 0;
+  padding: 0;
+}
+.chart-container {
+background-color: #15172b;
+border-radius: 20px;
+padding: 20px;
+color: white;
+margin-top: 20px;
+}
+.chart-container h2 {
+text-align: center;
+}
+.chart-container img {
+display: block;
+margin: 0 auto;
+border-radius: 12px;
+}
+.wrapper {
+  height: 100vh; /* 使其高度覆盖视口 */
+  width: 100vw; /* 使其宽度覆盖视口 */
+  background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+  position: fixed; /* 固定在视口 */
+  top: 0;
+  left: 0;
+  z-index: -1; /* 确保在所有其他内容之下 */
+}
+.wrapper h1 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 888;
+  text-transform: uppercase;
+}
+.wrapper div {
+  height: 60px;
+  width: 60px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  animation: 4s linear infinite;
+}
+div .dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 20%;
+  right: 20%;
+}
+.wrapper div:nth-child(1) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(3) {
+  top: 40%;
+  left: 40%;
+  animation: animate 3s linear infinite;
+}
+.wrapper div:nth-child(4) {
+  top: 66%;
+  left: 30%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(5) {
+  top: 90%;
+  left: 10%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(6) {
+  top: 30%;
+  left: 60%;
+  animation: animate 5s linear infinite;
+}
+.wrapper div:nth-child(7) {
+  top: 70%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(8) {
+  top: 75%;
+  left: 60%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(9) {
+  top: 50%;
+  left: 50%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(10) {
+  top: 45%;
+  left: 20%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(11) {
+  top: 10%;
+  left: 90%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(12) {
+  top: 20%;
+  left: 70%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(13) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(14) {
+  top: 60%;
+  left: 5%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(15) {
+  top: 90%;
+  left: 80%;
+  animation: animate 9s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: scale(0) translateY(0) rotate(70deg);
+  }
+  100% {
+    transform: scale(1.3) translateY(-100px) rotate(360deg);
+  }
+}
+    .logout-link {
+position: absolute;
+bottom: 120px;
+z-index: 10; /* Ensure the link is above the image */
+}
+
+.scaled-image {
+width: 80%; /* 你可以调整这个百分比来缩放图片 */
+height: auto; /* 保持宽高比例 */
+position: absolute;
+bottom: 0;
+left:5px;
+}
+    </style>
+</head>
+<body>
+<div class="wrapper">
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+    </div>
+
+    <div class="sidebar">
+        <img src="static\images\hdu.png" alt="杭电图标" class="icon"/>
+        <h1>导航栏</h1><br>
+        <a href="/static/query.html">查询客户信息</a>
+        <a href="/static/wykh.html">违约客户</a>
+        <a href="/static/rdsq.html">违约认定申请</a>
+        <a href="/static/rdsh.html">认定审核</a>
+        <a href="/static/wycs.html">违约重生申请</a>
+        <a href="/static/cssh.html">重生审核</a>
+        <a href="/static/tj.html" style="color: green;">数据统计</a>
+        <a href="/static/hdulogin.html" class="logout-link" style="color: yellow;">退出登录</a >
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:0px;left:40px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:20px;left:49px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:50px;left:35px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:0px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:22px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:34px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:10px;left:-35px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:30px;left:-42px"/>
+        <img src="static\images\beeeeeeeeeeeee.gif" alt="light" class="scaled-image" style="bottom:40px;left:-38px"/>
+    </div>
+
+     <h1>统计图表展示</h1>
+
+    <table class="chart-table">
+        <tr>
+            <td>
+                <div class="chart-container">
+                    <h2>2024年不同行业违约数</h2>
+                    <img id="industryChart" class="chart" alt="行业违约数图表" width="600" height="400">
+                </div>
+            </td>
+            <td>
+                <div class="chart-container">
+                    <h2>2024年不同地区违约数</h2>
+                    <img id="regionChart" class="chart" alt="地区违约数图表" width="600" height="400">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="chart-container full-width">
+                    <h2>历史不同地区违约总数趋势图</h2>
+                    <img id="regionTrendChart" class="chart" alt="不同地区违约总数图表" width="1500" height="400">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="chart-container full-width">
+                    <h2>历史不同行业违约总数趋势图</h2>
+                    <img id="industryTrendChart" class="chart" alt="不同行业违约总数图表" width="1500" height="400">
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        async function fetchCharts() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/stats');
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                document.getElementById('industryChart').src = 'data:image/png;base64,' + data.industry_chart;
+                document.getElementById('regionChart').src = 'data:image/png;base64,' + data.region_chart;
+                document.getElementById('regionTrendChart').src = 'data:image/png;base64,' + data.region_trend_chart;
+                document.getElementById('industryTrendChart').src = 'data:image/png;base64,' + data.industry_trend_chart;
+
+            } catch (error) {
+                console.error('Error fetching charts:', error);
+                document.body.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            }
+        }
+
+        fetchCharts();
+    </script>
+</body>
+</html>

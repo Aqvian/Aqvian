@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认定审核</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+        .icon{
+            max-width: 80px; /* 最大宽度 */
+            max-height: 20vh; /* 最大高度，等于视口高度的25% */
+            filter: brightness(0) invert(1); /* 将图像颜色转换为白色 */
+        }
+        .sidebar {
+            width: 150px;
+            background-color: #2c3e50;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .sidebar a:hover {
+            background-color: #34495e;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+            box-sizing: border-box;
+        }
+        .form-container {
+            background-color: #15172b;
+            border-radius: 20px;
+            box-sizing: border-box;
+            padding: 20px;
+            width: 100%;
+            color: white;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .input, .select {
+            background-color: #303245;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            font-size: 18px;
+            padding: 10px 20px;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+        }
+        .select {
+            height: 50px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        button.submit {
+            background-color: #08d;
+            border-radius: 12px;
+            border: 0;
+            box-sizing: border-box;
+            color: #eee;
+            cursor: pointer;
+            font-size: 18px;
+            height: 50px;
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+        button.submit:active {
+            background-color: #06b;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            color: white;
+        }
+        th {
+            background-color: #34495e;
+        }
+        td {
+            background-color: #2c3e50;
+        }
+        .action-button {
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            border: none; /* Ensure border is removed */
+        }
+        .approve {
+            background-color: #27ae60;
+        }
+        .reject {
+            background-color: #c0392b;
+        }
+        .revoke {
+            background-color: #f39c12;
+        }
+        .disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            color: #7f8c8d;
+        }
+        * {
+  margin: 0;
+  padding: 0;
+}
+.wrapper {
+  height: 100vh; /* 使其高度覆盖视口 */
+  width: 100vw; /* 使其宽度覆盖视口 */
+  background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+  position: fixed; /* 固定在视口 */
+  top: 0;
+  left: 0;
+  z-index: -1; /* 确保在所有其他内容之下 */
+}
+.wrapper h1 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 888;
+  text-transform: uppercase;
+}
+.wrapper div {
+  height: 60px;
+  width: 60px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  animation: 4s linear infinite;
+}
+div .dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 20%;
+  right: 20%;
+}
+.wrapper div:nth-child(1) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(2) {
+  top: 60%;
+  left: 80%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(3) {
+  top: 40%;
+  left: 40%;
+  animation: animate 3s linear infinite;
+}
+.wrapper div:nth-child(4) {
+  top: 66%;
+  left: 30%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(5) {
+  top: 90%;
+  left: 10%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(6) {
+  top: 30%;
+  left: 60%;
+  animation: animate 5s linear infinite;
+}
+.wrapper div:nth-child(7) {
+  top: 70%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(8) {
+  top: 75%;
+  left: 60%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(9) {
+  top: 50%;
+  left: 50%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(10) {
+  top: 45%;
+  left: 20%;
+  animation: animate 10s linear infinite;
+}
+.wrapper div:nth-child(11) {
+  top: 10%;
+  left: 90%;
+  animation: animate 9s linear infinite;
+}
+.wrapper div:nth-child(12) {
+  top: 20%;
+  left: 70%;
+  animation: animate 7s linear infinite;
+}
+.wrapper div:nth-child(13) {
+  top: 20%;
+  left: 20%;
+  animation: animate 8s linear infinite;
+}
+.wrapper div:nth-child(14) {
+  top: 60%;
+  left: 5%;
+  animation: animate 6s linear infinite;
+}
+.wrapper div:nth-child(15) {
+  top: 90%;
+  left: 80%;
+  animation: animate 9s linear infinite;
+}
+@keyframes animate {
+  0% {
+    transform: scale(0) translateY(0) rotate(70deg);
+  }
+  100% {
+    transform: scale(1.3) translateY(-100px) rotate(360deg);
+  }
+}
+    .logout-link {
+position: absolute;
+bottom: 120px;
+z-index: 10; /* Ensure the link is above the image */
+}
+
+.scaled-image {
+width: 95%; /* 你可以调整这个百分比来缩放图片 */
+height: auto; /* 保持宽高比例 */
+position: absolute;
+bottom: 0;
+left:5px;
+}
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+      <div><span class="dot"></span></div>
+    </div>
+
+<div class="sidebar">
+    <img src="static\images\hdu.png" alt="杭电图标" class="icon"/>
+    <h1>导航栏</h1><br>
+    <a href="/static/query.html">查询客户信息</a>
+    <a href="/static/wykh.html">违约客户</a>
+    <a href="/static/rdsq.html">违约认定申请</a>
+    <a href="/static/rdsh.html" style="color: green;">认定审核</a>
+    <a href="/static/wycs.html">违约重生申请</a>
+    <a href="/static/cssh.html">重生审核</a>
+    <a href="/static/tj.html">数据统计</a>
+    <a href="/static/hdulogin.html" class="logout-link" style="color: yellow;">退出登录</a >
+    <img src="static\images\bird2.gif" alt="light" class="scaled-image" />
+</div>
+
+<div class="content">
+    <div class="form-container">
+        <h1>认定审核</h1>
+        <div class="input-container">
+            <label for="clientName">客户名称</label>
+            <input type="text" id="clientName" class="input">
+        </div>
+        <div class="input-container">
+            <label for="auditStatus">审核状态</label>
+            <select id="auditStatus" class="select">
+                <option value="all">全部</option>
+                <option value="已审核">已审核</option>
+                <option value="未审核">未审核</option>
+            </select>
+        </div>
+        <button class="submit" id="search">查询</button>
+
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>客户名称</th>
+                    <th>最新外部等级</th>
+                    <th>违约原因</th>
+                    <th>违约严重性</th>
+                    <th>备注信息</th>
+                    <th>审核状态</th>
+                    <th>审核结果</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 查询结果将插入到这里 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('search').addEventListener('click', function() {
+        const clientName = document.getElementById('clientName').value.trim();
+        const auditStatus = document.getElementById('auditStatus').value;
+        fetch('/getAuditData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                clientName: clientName,
+                auditStatus: auditStatus,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.getElementById('resultTable').querySelector('tbody');
+            tbody.innerHTML = '';
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                const isReviewed = row.auditStatus === '已审核';
+                const isNotReviewed = row.auditStatus === '未审核';
+
+                tr.innerHTML = `
+                    <td>${row.clientName}</td>
+                    <td>${row.externalRating}</td>
+                    <td>${row.violationReason}</td>
+                    <td>${row.severity}</td>
+                    <td>${row.remarks}</td>
+                    <td>${row.auditStatus}</td>
+                    <td>${row.auditResult || ''}</td> <!-- 显示审核结果 -->
+                    <td>
+                        <button class="action-button approve"
+                                onclick="handleAudit('${row.clientName}', '通过', this)"
+                                ${isReviewed ? 'disabled' : ''}
+                                ${isReviewed ? 'class="disabled"' : ''}>通过
+                        </button>
+                        <button class="action-button reject"
+                                onclick="handleAudit('${row.clientName}', '不通过', this)"
+                                ${isReviewed ? 'disabled' : ''}
+                                ${isReviewed ? 'class="disabled"' : ''}>不通过
+                        </button>
+                        <button class="action-button revoke"
+                                onclick="handleRevoke('${row.clientName}', this)"
+                                ${isNotReviewed ? 'disabled' : ''}
+                                ${isNotReviewed ? 'class="disabled"' : ''}>撤回
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => {
+            console.error('查询失败:', error);
+        });
+    });
+
+    function handleAudit(clientName, action, button) {
+        fetch('/auditClient', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                clientName: clientName,
+                action: action,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(`${action}操作成功！`);
+
+                // 更新按钮状态
+                updateButtonStates();
+            } else {
+                alert(`${action}操作失败，请重试。`);
+            }
+        })
+        .catch(error => {
+            console.error('操作失败:', error);
+        });
+    }
+
+    function handleRevoke(clientName, button) {
+        fetch('/revokeAudit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                clientName: clientName,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('撤回操作成功！');
+
+                // 更新按钮状态
+                updateButtonStates();
+            } else {
+                alert('撤回操作失败，请重试。');
+            }
+        })
+        .catch(error => {
+            console.error('操作失败:', error);
+        });
+    }
+
+    function updateButtonStates() {
+        // 重新查询数据以更新按钮状态
+        document.getElementById('search').click();
+    }
+</script>
+
+</body>
+</html>
